@@ -13,4 +13,11 @@ public record Reserva(Long id, String emailCliente, RangoFechas fechas, BigDecim
     public Reserva conId(Long nuevoId) {
         return new Reserva(nuevoId, emailCliente, fechas, total, estado);
     }
+
+    public Reserva cancelada() {
+        if (estado == EstadoReserva.CANCELADA) {
+            throw new IllegalStateException("La reserva #" + id + " ya estaba cancelada");
+        }
+        return new Reserva(id, emailCliente, fechas, total, EstadoReserva.CANCELADA);
+    }
 }

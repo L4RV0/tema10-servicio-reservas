@@ -11,7 +11,10 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -70,27 +73,38 @@ class ReservaServiceTest {
     // ---- Dobles de prueba: implementan las mismas interfaces que los componentes reales ----
 
     static class RepositorioEnMemoria implements IReservaRepository {
-        private final List<Reserva> datos = new ArrayList<>();
+        private final Map<Long, Reserva> datos = new LinkedHashMap<>();
 
         @Override
         public Reserva guardar(Reserva reserva) {
-            Reserva guardada = reserva.conId((long) datos.size() + 1);
-            datos.add(guardada);
+            Reserva guardada = reserva.id() == null ? reserva.conId((long) datos.size() + 1) : reserva;
+            datos.put(guardada.id(), guardada);
             return guardada;
         }
 
         @Override
         public List<Reserva> buscarTodas() {
-            return List.copyOf(datos);
+            return List.copyOf(datos.values());
+        }
+
+        @Override
+        public Optional<Reserva> buscarPorId(Long id) {
+            return Optional.ofNullable(datos.get(id));
         }
     }
 
     static class PasarelaFalsa implements IPasarelaPago {
         final List<BigDecimal> cobros = new ArrayList<>();
+        final List<BigDecimal> reembolsos = new ArrayList<>();
 
         @Override
         public void cobrar(BigDecimal monto) {
             cobros.add(monto);
+        }
+
+        @Override
+        public void reembolsar(BigDecimal monto) {
+            reembolsos.add(monto);
         }
     }
 

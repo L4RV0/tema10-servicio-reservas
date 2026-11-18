@@ -15,18 +15,35 @@ public class PagoAdapter implements IPasarelaPago {
 
     private static final Logger LOG = Logger.getLogger(PagoAdapter.class.getName());
     private final List<BigDecimal> cobros = new ArrayList<>();
+    private final List<BigDecimal> reembolsos = new ArrayList<>();
 
     // Traza: RF-03
     @Override
     public void cobrar(BigDecimal monto) {
-        if (monto == null || monto.signum() <= 0) {
-            throw new IllegalArgumentException("El monto a cobrar debe ser positivo");
-        }
+        validar(monto);
         cobros.add(monto);
         LOG.info("[Pasarela simulada] Cobro de " + monto);
     }
 
+    // Traza: RF-05
+    @Override
+    public void reembolsar(BigDecimal monto) {
+        validar(monto);
+        reembolsos.add(monto);
+        LOG.info("[Pasarela simulada] Reembolso de " + monto);
+    }
+
+    private static void validar(BigDecimal monto) {
+        if (monto == null || monto.signum() <= 0) {
+            throw new IllegalArgumentException("El monto debe ser positivo");
+        }
+    }
+
     public List<BigDecimal> cobros() {
         return List.copyOf(cobros);
+    }
+
+    public List<BigDecimal> reembolsos() {
+        return List.copyOf(reembolsos);
     }
 }

@@ -6,6 +6,7 @@ import com.ejemplo.reservas.dominio.Reserva;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -29,5 +30,10 @@ public class ReservaRepository implements IReservaRepository {
     @Override
     public List<Reserva> buscarTodas() {
         return new ArrayList<>(reservas.values());
+    }
+
+    @Override
+    public Optional<Reserva> buscarPorId(Long id) {
+        return Optional.ofNullable(reservas.get(id));
     }
 }

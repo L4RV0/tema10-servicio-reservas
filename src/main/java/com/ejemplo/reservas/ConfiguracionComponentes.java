@@ -1,6 +1,8 @@
 package com.ejemplo.reservas;
 
+import com.ejemplo.reservas.aplicacion.CancelacionService;
 import com.ejemplo.reservas.aplicacion.DisponibilidadService;
+import com.ejemplo.reservas.aplicacion.ICancelacion;
 import com.ejemplo.reservas.aplicacion.IDisponibilidad;
 import com.ejemplo.reservas.aplicacion.INotificador;
 import com.ejemplo.reservas.aplicacion.IPasarelaPago;
@@ -44,5 +46,10 @@ public class ConfiguracionComponentes {
     IReservaService reservaService(IDisponibilidad disponibilidad, IReservaRepository repositorio,
                                    IPasarelaPago pago, INotificador notificador) {
         return new ReservaService(disponibilidad, repositorio, pago, notificador);
+    }
+
+    @Bean
+    ICancelacion cancelacionService(IReservaRepository repositorio, IPasarelaPago pago) {
+        return new CancelacionService(repositorio, pago);
     }
 }

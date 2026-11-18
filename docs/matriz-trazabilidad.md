@@ -12,6 +12,7 @@ Se lee en los dos sentidos:
 | RF-02 Crear reserva (HU-03) | ReservaService | crearReserva() | ReservaServiceTest.debeConfirmarYNotificar |
 | RF-03 Cobrar la reserva | PagoAdapter | cobrar() | PagoAdapterTest.debeRegistrarElCobroYRechazarMontosInvalidos |
 | RF-04 Confirmar por correo | NotificadorEmail | enviarConfirmacion() | NotificadorEmailTest.debeEnviarLaConfirmacionAlCliente |
+| RF-05 Cancelar con reembolso | CancelacionService | cancelar() | CancelacionServiceTest.debeCancelarYReembolsar |
 | RNF-01 Responder en menos de 2 s | Contenedor: API de Reservas | Configuración y caché | Pendiente: prueba de carga (no automatizada en el prototipo) |
 
 **HU-03:** Como cliente, quiero reservar una habitación y recibir la confirmación por correo.

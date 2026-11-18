@@ -25,6 +25,7 @@ workspace "Servicio de Reservas" "Tema 10 · De componentes a código" {
                 repositorio = component "ReservaRepository" "Guarda y lee reservas" "Java"
                 pago = component "PagoAdapter" "Cobra con la pasarela externa" "Java"
                 notificador = component "NotificadorEmail" "Envía la confirmación" "Java"
+                cancel = component "CancelacionService" "Cancela y reembolsa (RF-05)" "Java"
             }
 
             db = container "Base de datos" "Guarda las reservas" "PostgreSQL" {
@@ -43,6 +44,9 @@ workspace "Servicio de Reservas" "Tema 10 · De componentes a código" {
         repositorio -> db "Lee y escribe" "JDBC"
         pago -> pasarela "Cobra" "HTTPS"
         notificador -> correo "Envía el correo" "SMTP"
+        controller -> cancel "Delega en ICancelacion"
+        cancel -> repositorio "Busca y guarda (IReservaRepository)"
+        cancel -> pago "Reembolsa (IPasarelaPago)"
     }
 
     views {

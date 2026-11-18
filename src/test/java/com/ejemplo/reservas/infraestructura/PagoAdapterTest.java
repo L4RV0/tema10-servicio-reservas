@@ -21,4 +21,14 @@ class PagoAdapterTest {
         assertEquals(List.of(new BigDecimal("150.00")), pago.cobros());
         assertThrows(IllegalArgumentException.class, () -> pago.cobrar(BigDecimal.ZERO));
     }
+
+    // Traza: RF-05
+    @Test
+    void debeRegistrarElReembolso() {
+        PagoAdapter pago = new PagoAdapter();
+
+        pago.reembolsar(new BigDecimal("150.00"));
+
+        assertEquals(List.of(new BigDecimal("150.00")), pago.reembolsos());
+    }
 }
